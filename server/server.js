@@ -1,26 +1,54 @@
-// Now we import express
+//!we need to npm i cors to install cors, so our server can accept data from the client
+
+//I need to access express
 import express from "express";
 
-// now we initilise express
+//I need to access cors
+import cors from "cors";
+
+//I need to initialise express
 const app = express();
-// now we need to tell express to read JSON
+
+//I need to tell express to use cors when acceptin data from the client
+app.use(cors());
+
+//I need to tell express to read JSON
 app.use(express.json());
-// I need to tell my app to listen to a dspecific port
-const PORT = 8080; //you can use this  to save the port becomes useful when no longer on a local port
-app.listen(PORT, function () {
-  console.log("Ya want ya server? Well it's runnin");
+
+//I need to tell my app to listen to a specific PORT
+app.listen(8080, function () {
+  console.log("Server is running and ready to rumble");
 });
-// I need to write write an end point for my root route
-// so we can read data
+
+//you can also keep the PORT value separately
+//!you will need to replace this local host value with your local host deployment url
+
+// const PORT = 8080;
+
+// app.listen(PORT, function () {
+//   console.log(`Server is running and ready to rumble in PORT ${PORT}`);
+// });
+
+//I need to write an endpoint for my root route
+//I want to READ data --> GET method
+
 app.get("/", function (request, response) {
-  response.json({ message: "Whatcha want? you can see me ya peeking Tom" });
+  //what task do we want this endpoint to store?
+  response.json({ message: "You are looking at my root route. How roude!" });
 });
-// now we need to write data to our server
+
+//I need to write an endpoint to ADD new data
 app.post("/add-data", function (request, response) {
-  // we will use our response to access the data in the body, the body stores the data coming from the user
+  //we will use our request parameter to access the data in the body
+  //the body stores the data that comes from the user
   const bodyData = request.body;
-  //this console log will be replaced with the code that inserts the bodyData into the database
+
+  //this console log will be replaces with code that inserts the body data into the database
   console.log(bodyData);
-  // and we will use our responce to see what data was added
-  response.json({ message: "I got your body data ;-)" });
+
+  //we will use our response parameter to see what data was added
+  response.json({
+    message: "Body data received",
+    location: `${bodyData.location}`,
+  });
 });
